@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useMemo, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const TEASER_MESSAGES = [
@@ -14,6 +14,8 @@ export default function ThemePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMessage, setActiveMessage] = useState(TEASER_MESSAGES[0]);
   const [hasStarted, setHasStarted] = useState(false);
+  
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const shuffledMessages = useMemo(
     () => [...TEASER_MESSAGES],
@@ -29,16 +31,35 @@ export default function ThemePage() {
     setIsOpen(true);
   }
 
+  const handleVideoPlay = () => {
+    if (!videoRef.current) return;
+
+    if (!(videoRef.current as any).isAudioBoosted) {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      const audioCtx = new AudioContext();
+      const track = audioCtx.createMediaElementSource(videoRef.current);
+      const gainNode = audioCtx.createGain();
+
+      // 3.0 means 300% volume
+      gainNode.gain.value = 3.0;
+
+      track.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      (videoRef.current as any).isAudioBoosted = true;
+    }
+  };
+
   return (
     <>
       <section className="w-full max-w-3xl space-y-8 text-center sm:text-left">
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold tracking-tight text-sky-50 sm:text-3xl">
+          <h2 className="font-cursive text-4xl leading-tight text-sky-50 sm:text-5xl">
             Can you guess the theme from this video?
           </h2>
-          <p className="text-sm text-sky-100/80 sm:text-base">
+          <p className="font-cursive text-xl text-sky-100/80 sm:text-2xl">
             Watch closely, listen carefully, and trust your instincts. Drop
-            your best guess below—we&apos;re not saying you&apos;ll be right,
+            your best guess below, we&apos;re not saying you&apos;ll be right,
             but we promise it&apos;ll be fun.
           </p>
         </div>
@@ -61,11 +82,13 @@ export default function ThemePage() {
               </button>
             ) : (
               <video
+                ref={videoRef}
+                onPlay={handleVideoPlay}
                 className="relative block h-full w-full bg-blue-900 object-contain"
                 controls
                 autoPlay
               >
-                <source src="/Until we meet again (2).mp4" type="video/mp4" />
+                <source src="/Until we meet again (1).mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             )}
@@ -114,10 +137,10 @@ export default function ThemePage() {
               >
                 ×
               </button>
-              <h3 className="mb-3 text-lg font-semibold text-sky-50">
+              <h3 className="mb-3 font-cursive text-4xl text-sky-50">
                 Keep those guesses coming
               </h3>
-              <p className="text-sm text-sky-100/90">{activeMessage}</p>
+              <p className="font-cursive text-2xl text-sky-100/90">{activeMessage}</p>
             </motion.div>
           </motion.div>
         )}
@@ -125,4 +148,3 @@ export default function ThemePage() {
     </>
   );
 }
-
