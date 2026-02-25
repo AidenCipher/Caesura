@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Satisfy } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { AnimatedBackground } from "@/components/AnimatedBackground";
@@ -11,6 +11,13 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+// Initialize the new cursive font (requires weight: "400")
+const satisfy = Satisfy({
+  weight: "400",
+  variable: "--font-satisfy",
   subsets: ["latin"],
 });
 
@@ -27,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-transparent text-sky-100 flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} ${satisfy.variable} antialiased bg-transparent text-sky-100 flex flex-col`}
       >
         <div className="relative min-h-screen overflow-hidden">
           <AnimatedBackground />
