@@ -13,6 +13,7 @@ const TEASER_MESSAGES = [
 export default function ThemePage() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeMessage, setActiveMessage] = useState(TEASER_MESSAGES[0]);
+  const [hasStarted, setHasStarted] = useState(false);
 
   const shuffledMessages = useMemo(
     () => [...TEASER_MESSAGES],
@@ -45,13 +46,29 @@ export default function ThemePage() {
         <div className="flex flex-col items-center gap-6">
           <div className="relative aspect-[9/16] w-full max-w-xs overflow-hidden rounded-3xl border border-sky-500/40 bg-blue-950/60 shadow-[0_0_40px_rgba(30,64,175,0.75)] sm:max-w-sm">
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-blue-950/70 via-transparent to-sky-500/10" />
-            <video
-              className="relative block h-full w-full bg-blue-900 object-contain"
-              controls
-            >
-              <source src="/Until we meet again (1).mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            {!hasStarted ? (
+              <button
+                type="button"
+                onClick={() => setHasStarted(true)}
+                className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-sky-100"
+              >
+                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-sky-500 text-blue-950 shadow-[0_0_30px_rgba(56,189,248,0.8)]">
+                  ▶
+                </span>
+                <span className="text-xs font-medium tracking-wide uppercase text-sky-100/80">
+                  Play Teaser
+                </span>
+              </button>
+            ) : (
+              <video
+                className="relative block h-full w-full bg-blue-900 object-contain"
+                controls
+                autoPlay
+              >
+                <source src="/Until we meet again (1).mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            )}
           </div>
 
           <form
