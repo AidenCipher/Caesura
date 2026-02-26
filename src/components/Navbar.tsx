@@ -15,7 +15,7 @@ export function Navbar() {
             href="/"
             className="text-sky-100 hover:text-sky-300 transition-colors"
           >
-            Home
+            MBA Batch of &apos;26
           </Link>
           <Link
             href="/theme"

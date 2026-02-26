@@ -55,7 +55,7 @@ export default function ThemePage() {
       <section className="w-full max-w-3xl space-y-8 text-center sm:text-left">
         <div className="space-y-4">
           <h2 className="font-cursive text-4xl leading-tight text-sky-50 sm:text-5xl">
-            Can you guess the theme from this video?
+            Christite! Can you guess the theme from this video?
           </h2>
           <p className="font-cursive text-xl text-sky-100/80 sm:text-2xl">
             Watch closely, listen carefully, and trust your instincts. Drop
